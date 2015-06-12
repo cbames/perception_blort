@@ -1,18 +1,28 @@
-#include <blort/ObjectEntry.h>
+#include <blort/blort/ObjectEntry.h>
 
 blort::RecogData blort::getBest(const ObjectEntry& obj)
 {
   float best_conf = 0;
   size_t best_i = 0;
-  for(size_t i = 0; i < obj.recog_data.size(); ++i)
+ if(obj.recog_data.size() > 0)
   {
-    if(obj.recog_data[i].conf > best_conf)
+    for(size_t i = 0; i < obj.recog_data.size(); ++i)
     {
-      best_conf = obj.recog_data[i].conf;
-      best_i = i;
+      if(obj.recog_data[i].conf > best_conf)
+      {
+        best_conf = obj.recog_data[i].conf;
+        best_i = i;
+      }
     }
+    return obj.recog_data[best_i];
   }
-  return obj.recog_data[best_i];
+  else
+  {
+    std::cout << "No recognition data, most likely sift file missing frome Resource directory, ensure that object and sift name are the same" << std::endl; 
+    throw; 
+  }
+
+
 }
 
 void blort::buildFromFiles(const std::vector<std::string> & ply_models, const std::vector<std::string> & sift_files, const std::vector<std::string> & model_names, std::vector<blort::ObjectEntry> & out)

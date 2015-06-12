@@ -1,4 +1,4 @@
-# camera parameter file generated Fri Mar  2 13:07:26 2012
+# camera parameter file generated Tue May 26 13:22:49 2015
 
 # Intrinsic parameters for pinhole camera model.
 # The pinhole camera model is as follows:
@@ -36,48 +36,62 @@
 # w, h .. image width and height
 
 # focal lengths in [pix]
-fx = 568.168672
-fy = 566.360327
+fx = 518.323396
+fy = 515.832379
 # principal point [pix]
-cx = 349.631248
-cy = 256.295344
+cx = 313.988589
+cy = 264.199595
 
 # (nominal) focal length [mm]
-f  = 3.080000
+f  = 3.000000
 # pixel size [mm/pix]
-sx = 0.005421
-sy = 0.005438
+sx = 0.005788
+sy = 0.005816
 # aspect ratio: pixel size x/y
-r  = 0.996817
+r  = 0.995194
 # image width and height
 w =  640
 h =  480
 
 # distortion parameters
-k1 = -0.059636
-k2 = 0.232352
-p1 = -0.003432
-p2 = 0.017361
+k1 = 0.139042
+k2 = -0.253760
+p1 = -0.002705
+p2 = -0.002094
 
 # mean reprojection error
-err = 0.083355
+err = 0.000484
 
 # poses of calibration object w.r.t. camera for each image
 # 3x1 translation vector t [m] and 3x1 rotation vector
-nposes = 8
-# /home/student/Documents/Blort-2.2_updated/Calibration/logitech_s7500_images/img000.jpg
-pose0 = [109.329 35.966 439.824]  [1.804 -1.887 0.585]
-# /home/student/Documents/Blort-2.2_updated/Calibration/logitech_s7500_images/img001.jpg
-pose1 = [33.701 55.914 296.492]  [2.140 -1.037 0.501]
-# /home/student/Documents/Blort-2.2_updated/Calibration/logitech_s7500_images/img002.jpg
-pose2 = [158.519 -49.797 405.000]  [0.770 -2.662 -0.083]
-# /home/student/Documents/Blort-2.2_updated/Calibration/logitech_s7500_images/img005.jpg
-pose3 = [83.430 31.208 371.919]  [-1.481 2.372 -1.247]
-# /home/student/Documents/Blort-2.2_updated/Calibration/logitech_s7500_images/img006.jpg
-pose4 = [-81.768 55.776 229.373]  [2.527 -0.557 0.467]
-# /home/student/Documents/Blort-2.2_updated/Calibration/logitech_s7500_images/img008.jpg
-pose5 = [145.767 96.427 442.254]  [-1.703 2.014 0.635]
-# /home/student/Documents/Blort-2.2_updated/Calibration/logitech_s7500_images/img009.jpg
-pose6 = [121.458 80.015 283.173]  [1.537 -1.636 -0.213]
-# /home/student/Documents/Blort-2.2_updated/Calibration/logitech_s7500_images/img011.jpg
-pose7 = [-54.494 193.539 818.601]  [-0.878 1.458 -1.734]
+nposes = 15
+# frame0000.jpg
+pose0 = [-80.598 159.591 469.648]  [3.003 0.054 0.375]
+# frame0002.jpg
+pose1 = [46.786 86.849 994.722]  [-3.073 0.051 0.301]
+# frame0003.jpg
+pose2 = [231.354 68.430 940.801]  [-3.028 0.043 0.019]
+# frame0004.jpg
+pose3 = [-376.307 58.412 878.866]  [-3.006 0.025 0.104]
+# frame0006.jpg
+pose4 = [-59.135 131.619 795.415]  [2.989 -0.193 0.820]
+# frame0007.jpg
+pose5 = [-85.533 79.860 402.192]  [-3.025 -0.059 -0.047]
+# frame0008.jpg
+pose6 = [-107.290 -3.936 440.250]  [-3.013 -0.040 0.272]
+# frame0009.jpg
+pose7 = [-79.676 3.890 465.898]  [-3.038 -0.051 0.186]
+# frame0010.jpg
+pose8 = [-244.179 -8.657 499.275]  [-2.960 -0.061 -0.057]
+# frame0011.jpg
+pose9 = [-144.969 63.373 551.390]  [2.461 0.095 -0.384]
+# frame0012.jpg
+pose10 = [-146.245 -45.453 586.274]  [-2.558 -0.299 0.406]
+# frame0013.jpg
+pose11 = [34.306 49.316 624.359]  [-2.779 -0.529 0.831]
+# frame0015.jpg
+pose12 = [5.987 113.638 541.880]  [-3.075 -0.010 0.209]
+# frame0016.jpg
+pose13 = [229.855 268.863 934.682]  [-3.096 0.073 0.367]
+# frame0019.jpg
+pose14 = [166.937 -155.219 742.002]  [-2.976 -0.027 -0.135]

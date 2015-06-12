@@ -54,7 +54,7 @@
 #include <blort/TomGine/tgModel.h>
 #include <blort/TomGine/tgTimer.h>
 
-#include <blort/ObjectEntry.h>
+#include <blort/blort/ObjectEntry.h>
 
 namespace blort_ros
 {

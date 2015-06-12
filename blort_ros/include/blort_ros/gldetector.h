@@ -50,7 +50,7 @@
 #include <blort/Recognizer3D/Recognizer3D.h>
 #include <blort_ros/DetectorConfig.h>
 
-#include <blort/ObjectEntry.h>
+#include <blort/blort/ObjectEntry.h>
 
 namespace blort_ros
 {

@@ -10,14 +10,14 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(PkgConfig)
 pkg_check_modules(GLEW REQUIRED glew)
 
-include_directories(include)
 
 catkin_package(
-  INCLUDE_DIRS include
+  INCLUDE_DIRS
   LIBRARIES ${PROJECT_NAME}
-  DEPENDS libglew
+  DEPENDS libglew libdevil
 )
 
+include_directories( include)
 
 add_library(${PROJECT_NAME} src/CLTexImage.cpp
 			    src/CuTexImage.cpp
@@ -36,7 +36,7 @@ add_library(${PROJECT_NAME} src/CLTexImage.cpp
 			    src/SiftMatch.cpp
 			    src/SiftMatchCU.cpp
 			    src/SiftPyramid.cpp)
-target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARIES} IL)
+target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARIES} ${catkin_package_LIBRARIES} IL)
 
 #############
 ## Install ##
@@ -48,7 +48,7 @@ install(TARGETS ${PROJECT_NAME}
   RUNTIME DESTINATION ${CATKIN_PACKAGEdd_BIN_DESTINATION}
 )
 
-install(DIRECTORY include/${PROJECT_NAME}/
+install(DIRECTORY include/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
   FILES_MATCHING PATTERN "*.h"
   PATTERN ".svn" EXCLUDE

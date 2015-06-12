@@ -345,13 +345,16 @@ int Tracker::addModelFromFile(const char* filename, tgPose& p, std::string label
 
     modelEntry->label = label;
     modelEntry->model.setBFC(bfc);
-    
+    std::cout << "model added" << std::endl; 
+
     ModelLoader modelloader;
     if(!modelloader.LoadPly(modelEntry->model, filename))
         return -1;
+
     modelEntry->pose = p;
     modelEntry->initial_pose = p;
     // Calculate Zoom Direction and pass it to the particle filter
+
     TomGine::tgVector3 vCam = m_cam_perspective.GetPos();
     TomGine::tgVector3 vObj = TomGine::tgVector3(p.t.x, p.t.y, p.t.z);
     modelEntry->vCam2Model = vObj - vCam;
@@ -363,7 +366,6 @@ int Tracker::addModelFromFile(const char* filename, tgPose& p, std::string label
     modelEntry->num_particles = params.num_particles;
     modelEntry->num_recursions = params.num_recursions;
     m_modellist.push_back(modelEntry);
-
     return modelEntry->id;
 }
 

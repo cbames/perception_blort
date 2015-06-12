@@ -192,6 +192,12 @@ int main(int argc, char *argv[] )
   printf("=> Trying to get the object model from file: %s\n", modelFullPath.c_str());
   int modelID = tracker.addModelFromFile(modelFullPath.c_str(), trPose, model_name.c_str(), true);
   printf(" OK\n");
+  printf(" OK\n");
+  printf(" OK\n");
+  printf(" OK\n");
+  printf(" OK\n");
+
+  printf(" OK\n");
   tracker.setLockFlag(true);
 
 
@@ -201,6 +207,8 @@ int main(int argc, char *argv[] )
   TomGine::tgPose tg_pose;
   TomGine::tgModelLoader modelloader;
   modelloader.LoadPly(model, blort_ros::addRoot(ply_model, config_root).c_str());
+
+  //std::cout << "loaded ply" << std::endl; 
 
   Tracking::movement_state movement = Tracking::ST_FAST;
   Tracking::quality_state quality = Tracking::ST_OK;

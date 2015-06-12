@@ -46,7 +46,10 @@ bool DetectorNode::recovery(blort_msgs::RecoveryCall::Request &req,
         ROS_ERROR("cv_bridge exception: %s", e.what());
         return false;
       }
+      ROS_INFO("image converted");
+      std::cout << "detector:" << detector << std::endl; 
       result = detector->recovery(object_ids, cv_ptr->image, resp);
+      ROS_INFO("recovery completed") ;
     } else {
       ROS_INFO("Running detector on latest image.");
       result = detector->recoveryWithLast(object_ids, resp);
@@ -81,7 +84,7 @@ void DetectorNode::reconf_callback(blort_ros::DetectorConfig &config, uint32_t l
     detector->reconfigure(config);
     ROS_INFO("Detector confidence threshold set to %f", config.recovery_conf_threshold);
   } else {
-    ROS_WARN("Please publish camera_info for the tracker initialization.");
+    ROS_WARN("Please publish camera_info for the detector initialization.");
   }
 }
 
@@ -89,7 +92,7 @@ void DetectorNode::cam_info_callback(const sensor_msgs::CameraInfo &msg)
 {
   if(detector == 0)
   {
-    ROS_INFO("Camera parameters received, ready to run.");
+    ROS_INFO("[Detector]:Camera parameters received, ready to run.");
     cam_info_sub.shutdown();
     detector = new blort_ros::GLDetector(msg, root_);
     if(nn_match_threshold != 0.0)
@@ -102,6 +105,7 @@ void DetectorNode::cam_info_callback(const sensor_msgs::CameraInfo &msg)
         (new dynamic_reconfigure::Server<blort_ros::DetectorConfig>());
     f_ = boost::bind(&DetectorNode::reconf_callback, this, _1, _2);
     server_->setCallback(f_);
+    counter++; 
   }
 }
 

@@ -45,6 +45,7 @@
 #include <sstream>
 #include <iostream>
 #include <blort/blort/pal_util.h>
+ #include <blort/blort/ObjectEntry.h>
 #include <boost/foreach.hpp>
 
 using namespace blort_ros;
@@ -114,24 +115,24 @@ bool GLDetector::recoveryWithLast(std::vector<std::string> & obj_ids,
     }
   }
   recognizer->recognize(image_, recPoses, confs, select);
-
   bool found_one = false;
   resp.object_founds.resize(obj_ids.size());
   resp.Poses.resize(obj_ids.size());
-  for(size_t i = 0; i < objects.size(); ++i)
+  for(size_t i = 0; i < objects.size(); i++)
   {
     blort::RecogData recog = blort::getBest(objects[i]);
-    ROS_INFO_STREAM("object (" << objects[i].name
-                    << ") conf: " << confs[recog.sift_file]);
-    // if the recovery's confidence is high enough then propose this new pose
-    const bool found = ( confs[recog.sift_file] > recovery_conf_threshold );
-    if(found)
-    {
-      found_one = true;
-      resp.object_ids.push_back(objects[i].name);
-      resp.object_founds.push_back(true);
-      resp.Poses.push_back(blort_ros::tgPose2RosPose(*(recPoses[recog.sift_file])));
-    }
+
+      ROS_INFO_STREAM("object (" << objects[i].name
+                      << ") conf: " << confs[recog.sift_file]);
+      // if the recovery's confidence is high enough then propose this new pose
+      const bool found = ( confs[recog.sift_file] > recovery_conf_threshold );
+      if(found)
+      {
+        found_one = true;
+        resp.object_ids.push_back(objects[i].name);
+        resp.object_founds.push_back(true);
+        resp.Poses.push_back(blort_ros::tgPose2RosPose(*(recPoses[recog.sift_file])));
+      }
   }
   ROS_WARN_STREAM("Tried to recover for the " << rec3dcounter++ << ". time.");
   ROS_INFO_STREAM("Recovery execution time: "

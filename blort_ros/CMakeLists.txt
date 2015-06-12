@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   image_transport
   cv_bridge
   blort_msgs
+  siftgpu
 )
 
 find_package(OpenCV REQUIRED)
@@ -22,29 +23,28 @@ generate_dynamic_reconfigure_options(
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-catkin_package()
+catkin_package(
+  INCLUDE_DIRS
+  LIBRARIES
+  DEPENDS
+  CATKIN_DEPENDS blort_msgs siftgpu blort cv_bridge image_transport 
+
+)
 
 add_executable(learnsifts src/nodes/learnsifts.cpp)
-target_link_libraries(learnsifts siftgpu ${catkin_LIBRARIES})
-target_link_libraries(learnsifts module_tomgine module_glwindow module_tracker module_threadobject module_recognizer3d)
+target_link_libraries(learnsifts ${catkin_LIBRARIES})
+#target_link_libraries(learnsifts module_tomgine module_glwindow module_tracker module_threadobject module_recognizer3d)
 
 add_executable(gltracker_node
   src/nodes/tracker_node.cpp
   src/gltracker.cpp)
-target_link_libraries(gltracker_node module_tomgine
-                                   module_tracker
-                                   module_glwindow
-                                   ${catkin_LIBRARIES})
+target_link_libraries(gltracker_node  ${catkin_LIBRARIES})
 add_dependencies(gltracker_node blort_msgs_generate_messages_cpp)
 
 add_executable(gldetector_node
   src/nodes/detector_node.cpp
   src/gldetector.cpp)
-target_link_libraries(gldetector_node ${catkin_LIBRARIES}
-                                   module_tracker
-                                   module_tomgine
-                                   siftgpu
-                                   module_recognizer3d)
+target_link_libraries(gldetector_node ${catkin_LIBRARIES})
 
 add_executable(pose2Tf src/nodes/pose2Tf.cpp)
 target_link_libraries(pose2Tf ${catkin_LIBRARIES})
@@ -56,7 +56,7 @@ target_link_libraries(pose2Tf_repeat ${catkin_LIBRARIES})
 ## Unit test of image processing algorithms ##
 ##############################################
 add_executable(testImageProcessor test/testImageProcessor)
-target_link_libraries(testImageProcessor ${catkin_LIBRARIES} module_tracker module_tomgine)
+target_link_libraries(testImageProcessor ${catkin_LIBRARIES} )
 
 #############
 ## Install ##
