@@ -13,8 +13,13 @@ using namespace blortRecognizer;
 
 CameraParameter::CameraParameter(const sensor_msgs::CameraInfo &cam_info)
 {
-  w = cam_info.width;
-  h = cam_info.height;
+  float divisor_x = 1.0, divisor_y = 1.0; 
+
+  cam_info.binning_x  > 1 ? divisor_x = cam_info.binning_x : divisor_x; 
+  cam_info.binning_y  > 1 ? divisor_y = cam_info.binning_y : divisor_y; 
+
+  w= cam_info.width/divisor_x;
+  h = cam_info.height/divisor_y;
   fx =cam_info.K.at(0);
   cx = cam_info.K.at(2);
   fy = cam_info.K.at(4);

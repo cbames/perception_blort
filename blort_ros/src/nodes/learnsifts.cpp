@@ -170,8 +170,15 @@ int main(int argc, char *argv[] )
 
   printf("OK\n");
 
+  float divisor_x = 1.0, divisor_y = 1.0; 
+
+  camera_info.binning_x  > 1 ? divisor_x = camera_info.binning_x : divisor_x; 
+  camera_info.binning_y  > 1 ? divisor_y = camera_info.binning_y : divisor_y; 
+
+
+
   // Initialise image
-  IplImage *image = cvCreateImage( cvSize(camera_info.width, camera_info.height), 8, 3 ); //FIXME dirty
+  IplImage *image = cvCreateImage( cvSize(camera_info.width/ divisor_x, camera_info.height/divisor_y), 8, 3 ); //FIXME dirty
 
   printf("=> Initialising tracker ... ");
 
@@ -208,7 +215,6 @@ int main(int argc, char *argv[] )
   TomGine::tgModelLoader modelloader;
   modelloader.LoadPly(model, blort_ros::addRoot(ply_model, config_root).c_str());
 
-  //std::cout << "loaded ply" << std::endl; 
 
   Tracking::movement_state movement = Tracking::ST_FAST;
   Tracking::quality_state quality = Tracking::ST_OK;
@@ -220,6 +226,7 @@ int main(int argc, char *argv[] )
     ros::spinOnce();
   }
   *image = lastImage;
+
 
   pThreadRec->Event();
 
@@ -281,9 +288,11 @@ int main(int argc, char *argv[] )
     {
       // Get image
       timer.Update();
+
       *image = lastImage;
 
-      // Track object
+      // Track object 
+
       tracker.image_processing((unsigned char*)image->imageData);
       tracker.track();
 
@@ -295,6 +304,7 @@ int main(int argc, char *argv[] )
       need_new_image = true;
     }
     // Keyboard inputs:
+
     while(window.GetEvent(event)){
       quit = !InputControl(&tracker, event, config_root);
       if(event.type == blortGLWindow::TMGL_Press)
