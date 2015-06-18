@@ -17,6 +17,7 @@
 #include <blort/TomGine/tgMathlib.h>
 #include <blort/TomGine/tgPose.h>
 #include <sensor_msgs/CameraInfo.h>
+#include <image_geometry/pinhole_camera_model.h>
 
 #define GL_ORTHO 0
 #define GL_PERSPECTIVE 1

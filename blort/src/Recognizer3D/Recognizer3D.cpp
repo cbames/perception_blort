@@ -10,6 +10,7 @@
 #include <blort/blort/pal_util.h>
 
 using namespace blortRecognizer;
+using namespace image_geometry; 
 
 CameraParameter::CameraParameter(const sensor_msgs::CameraInfo &cam_info)
 {
@@ -20,26 +21,20 @@ CameraParameter::CameraParameter(const sensor_msgs::CameraInfo &cam_info)
 
   w= cam_info.width/divisor_x;
   h = cam_info.height/divisor_y;
-  fx =cam_info.K.at(0);
-  cx = cam_info.K.at(2);
-  fy = cam_info.K.at(4);
-  cy = cam_info.K.at(5);
-  if (!cam_info.D.empty())
-  {
-    k1 = cam_info.D.at(0);
-    k2 = cam_info.D.at(1);
-    k3 = cam_info.D.at(4);
-    p1 = cam_info.D.at(2);
-    p2 = cam_info.D.at(3);
-  }
-  else
-  {
-    k1 = 0.0;
-    k2 = 0.0;
-    k3 = 0.0;
-    p1 = 0.0;
-    p2 = 0.0;
-  }
+
+  PinholeCameraModel model;
+  model.fromCameraInfo(cam_info); 
+  fx = model.fx();
+  cx = model.cx();
+  fy = model.fy();
+  cy = model.cy();
+
+  k1 = 0.0;
+  k2 = 0.0;
+  k3 = 0.0;
+  p1 = 0.0;
+  p2 = 0.0;
+
 }
 
 void Recognizer3D::Convert(P::PoseCv& p1, TomGine::tgPose& p2){
@@ -61,7 +56,7 @@ void Recognizer3D::Convert(P::PoseCv& p1, TomGine::tgPose& p2){
 Recognizer3D::Recognizer3D(const blortRecognizer::CameraParameter& camParam,
                            std::string config_root, bool display, bool training)
 {
-  do_undistort = true;
+  do_undistort = false;
   this->config_root = config_root;
   pIntrinsicDistort = cvCreateMat(3,3, CV_64FC1);
   pDistortion = cvCreateMat(1,4, CV_64FC1);

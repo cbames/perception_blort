@@ -75,7 +75,11 @@ GLDetector::GLDetector(const sensor_msgs::CameraInfo& camera_info, const std::st
       sift_files_count++;
     }
   }
-  image_ = cvCreateImage( cvSize(camera_info.width, camera_info.height), 8, 3 );
+  float divisor_x = 1.0, divisor_y = 1.0; 
+
+  camera_info.binning_x  > 1 ? divisor_x = camera_info.binning_x : divisor_x; 
+  camera_info.binning_y  > 1 ? divisor_y = camera_info.binning_y : divisor_y; 
+  image_ = cvCreateImage( cvSize(camera_info.width/divisor_x, camera_info.height/divisor_y), 8, 3 );
 }
 
 bool GLDetector::recovery(std::vector<std::string> & obj_ids, const cv::Mat& image,
@@ -114,6 +118,7 @@ bool GLDetector::recoveryWithLast(std::vector<std::string> & obj_ids,
       }
     }
   }
+ 
   recognizer->recognize(image_, recPoses, confs, select);
   bool found_one = false;
   resp.object_founds.resize(obj_ids.size());

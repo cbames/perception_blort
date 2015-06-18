@@ -574,10 +574,10 @@ namespace P
             MatchKeypoints(keys, object.codebook, matches);
         else                                 // use second nearest neighbour
             MatchKeypoints2(keys, object.codebook, matches);
-
+/*
         for (unsigned i=0; i<matches.Size(); i++)
-            KeypointDescriptor::Draw(dbg,*matches[i]->k,CV_RGB(255,255,0));
-
+            KeypointDescriptor::Draw(dbg,*matches[i]->k,CV_RGB(255,255,0));*/
+/*
 #ifdef DEBUG
         clock_gettime(CLOCK_REALTIME, &end0);
         if (dbg!=0)
@@ -585,7 +585,7 @@ namespace P
                 KeypointDescriptor::Draw(dbg,*matches[i]->k,CV_RGB(255,0,0));
         clock_gettime(CLOCK_REALTIME, &start2);
 #endif
-
+*/
         FitModelRANSAC(matches, object.pose, numInl); //This is the fastest
         //FitModelRANSAC_GPU(matches, object.pose, numInl);
 

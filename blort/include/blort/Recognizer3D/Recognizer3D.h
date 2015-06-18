@@ -21,6 +21,7 @@
 #include <string>
 #include <opencv2/core/core.hpp>
 #include <sensor_msgs/CameraInfo.h>
+#include <image_geometry/pinhole_camera_model.h>
 
 namespace blortRecognizer{
 

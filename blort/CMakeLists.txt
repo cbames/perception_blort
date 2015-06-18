@@ -6,6 +6,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   tf
   sensor_msgs
+  image_geometry
   siftgpu
 )
 

@@ -24,6 +24,7 @@
   <build_depend>siftgpu</build_depend>
   <build_depend>libglew-dev</build_depend>
   <build_depend>glut</build_depend>
+  <build_depend>image_geometry</build_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>opencv2</run_depend>
   <run_depend>geometry_msgs</run_depend>
@@ -32,4 +33,6 @@
   <run_depend>siftgpu</run_depend>
   <run_depend>libglew-dev</run_depend>
   <run_depend>glut</run_depend>
+  <run_depend>image_geometry</run_depend>
+
 </package>

@@ -11,7 +11,7 @@
 #include <blort/TomGine/tgCamera.h>
 
 using namespace TomGine;
-
+using namespace image_geometry; 
 tgCamera::Parameter::Parameter(){
     width = 640;
     height = 480;
@@ -37,28 +37,22 @@ tgCamera::Parameter::Parameter(const sensor_msgs::CameraInfo& cam_info)
     cam_info.binning_x  > 1 ? divisor_x = cam_info.binning_x : divisor_x; 
     cam_info.binning_y  > 1 ? divisor_y = cam_info.binning_y : divisor_y; 
 
-    width = cam_info.width/divisor_x;
+    width= cam_info.width/divisor_x;
     height = cam_info.height/divisor_y;
-    fx =cam_info.K.at(0);
-    cx = cam_info.K.at(2);
-    fy = cam_info.K.at(4);
-    cy = cam_info.K.at(5);
-    if (!cam_info.D.empty())
-    {
-      k1 = cam_info.D.at(0);
-      k2 = cam_info.D.at(1);
-      k3 = cam_info.D.at(4);
-      p1 = cam_info.D.at(2);
-      p2 = cam_info.D.at(3);
-    }
-    else
-    {
-      k1 = 0.0;
-      k2 = 0.0;
-      k3 = 0.0;
-      p1 = 0.0;
-      p2 = 0.0;
-    }
+
+    PinholeCameraModel model;
+    model.fromCameraInfo(cam_info); 
+    fx = model.fx();
+    cx = model.cx();
+    fy = model.fy();
+    cy = model.cy();
+
+    k1 = 0.0;
+    k2 = 0.0;
+    k3 = 0.0;
+    p1 = 0.0;
+    p2 = 0.0;
+
     zNear = 0.1f;
     zFar = 5.0f;
     rot.fromRotVector(vec3(-2.0f,-1.0f,0.5f));

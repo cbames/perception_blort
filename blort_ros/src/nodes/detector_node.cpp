@@ -47,13 +47,14 @@ bool DetectorNode::recovery(blort_msgs::RecoveryCall::Request &req,
         return false;
       }
       ROS_INFO("image converted");
-      std::cout << "detector:" << detector << std::endl; 
+
       result = detector->recovery(object_ids, cv_ptr->image, resp);
       ROS_INFO("recovery completed") ;
     } else {
       ROS_INFO("Running detector on latest image.");
       result = detector->recoveryWithLast(object_ids, resp);
     }
+
     cv_bridge::CvImage out_msg;
     out_msg.header = req.Image.header;
     out_msg.header.stamp = ros::Time::now();
