@@ -1,6 +1,6 @@
 <launch>
-    <arg name="info" default="/stereo/left/camera_info" />
-    <arg name="image" default="/stereo/left/image" />
+    <arg name="info" default="/r2/head/prosilica/left_scaled/camera_info" />
+    <arg name="image" default="/r2/head/prosilica/left_scaled/image_rect_color" />
 
     <node pkg="blort_ros" type="learnsifts" name="blort_learnsifts" args="$(find blort_ros)" output="screen">
         <remap from="/blort_camera" to="$(arg info)" />
