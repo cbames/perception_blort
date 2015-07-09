@@ -107,19 +107,20 @@ bool Tracker::loadCamParsFromINI(const char* camCalFile, const char* poseCalFile
     params.camPar.k3 = 0.0f;
     params.camPar.p1 = camCDF.GetFloat("p1");
     params.camPar.p2 = camCDF.GetFloat("p2");
-    
-    //printf("%d %d, %f %f, %f %f, %f %f %f, %f %f\n",
-    //	params.camPar.width,
-    //	params.camPar.height,
-    //	params.camPar.fx,
-    //	params.camPar.fy,
-    //	params.camPar.cx,
-    //	params.camPar.cy,
-    //	params.camPar.k1,
-    //	params.camPar.k2,
-    //	params.camPar.k3,
-    //	params.camPar.p1,
-    //	params.camPar.p2);
+
+    std::cerr << "params from loadCamPars" << std::endl;     
+    printf("%d %d, %f %f, %f %f, %f %f %f, %f %f\n",
+    	params.camPar.width,
+    	params.camPar.height,
+    	params.camPar.fx,
+    	params.camPar.fy,
+    	params.camPar.cx,
+    	params.camPar.cy,
+    	params.camPar.k1,
+    	params.camPar.k2,
+    	params.camPar.k3,
+    	params.camPar.p1,
+    	params.camPar.p2);
     
     params.camPar.zFar = 4.0f;
     params.camPar.zNear = 0.1f;
@@ -274,6 +275,8 @@ bool Tracker::init(){
     // Load camera parameter
     m_cam_perspective.Load(params.camPar);
     
+
+    std::cerr << params.camPar.width << "," << params.camPar.height << std::endl; 
     // Initialize Image Processor
     g_Resources->InitImageProcessor(params.camPar.width, params.camPar.height);
     m_ip = g_Resources->GetImageProcessor();
@@ -833,17 +836,18 @@ void Tracker::saveModels(const char* pathname){
 
 void Tracker::saveScreenshot(const char* filename){
     IplImage* img = cvCreateImage ( cvSize ( params.camPar.width, params.camPar.height ), IPL_DEPTH_8U, 3 );
-    glReadPixels(0,0,params.camPar.width,params.camPar.height,GL_RGB,GL_UNSIGNED_BYTE, img->imageData);
-    cvConvertImage(img, img, CV_CVTIMG_FLIP | CV_CVTIMG_SWAP_RB);
+    glReadPixels(0,0,params.camPar.width,params.camPar.height,GL_BGR,GL_UNSIGNED_BYTE, img->imageData);
+    cvConvertImage(img, img, CV_CVTIMG_FLIP);
     cvSaveImage(filename, img);
     cvReleaseImage(&img);
 }
 
 cv::Mat Tracker::getImage()
 {
+    std::cerr << "params:" << params.camPar.width << "," << params.camPar.height << std::endl; 
     IplImage* img = cvCreateImage ( cvSize ( params.camPar.width, params.camPar.height ), IPL_DEPTH_8U, 3 );
-    glReadPixels(0,0,params.camPar.width,params.camPar.height,GL_RGB,GL_UNSIGNED_BYTE, img->imageData);
-    cvConvertImage(img, img, CV_CVTIMG_FLIP | CV_CVTIMG_SWAP_RB);
+    glReadPixels(0,0,params.camPar.width,params.camPar.height,GL_BGR,GL_UNSIGNED_BYTE, img->imageData);
+    cvConvertImage(img, img, CV_CVTIMG_FLIP );
     //FIXME: result(img) does not take ownership of the memory
     cv::Mat result(img, true);
     cvReleaseImage(&img);

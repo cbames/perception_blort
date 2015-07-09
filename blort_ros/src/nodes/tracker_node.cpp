@@ -1,6 +1,7 @@
 #include <blort_ros/tracker_node.h>
 #include <boost/foreach.hpp>
 #include <sstream>
+#include <image_geometry/pinhole_camera_model.h>
 
 TrackerNode::TrackerNode(std::string root)
   : nh_("blort_tracker"), it_(nh_), pose_seq(0), camera_frame_id("0"), root_(root), tracker(0)
@@ -102,8 +103,15 @@ void TrackerNode::imageCb(const sensor_msgs::ImageConstPtr& detectorImgMsg,
             msg.pose.header.seq = pose_seq++;
             msg.pose.header.stamp = ros::Time::now();
             msg.pose.header.frame_id = camera_frame_id;
+            //std::cout << "cam ref pose:" << tracker->getCameraReferencePose() << std::endl; 
+            //std::cout << "tracker detection" << tracker->getDetections()[obj.name] << std::endl;
+            geometry_msgs::Pose trackerPose = tracker->getDetections()[obj.name]; 
+            if (trackerPose.orientation.w == 0)
+            {
+              trackerPose.orientation.w=1; 
+            }
             msg.pose.pose = blort_ros::blortPosesToRosPose(tracker->getCameraReferencePose(),
-                                                           tracker->getDetections()[obj.name]);
+                                                           trackerPose);
             detection_result.publish(msg);
           }
         }
@@ -112,7 +120,8 @@ void TrackerNode::imageCb(const sensor_msgs::ImageConstPtr& detectorImgMsg,
         out_msg.header.stamp = ros::Time::now();
         out_msg.encoding = sensor_msgs::image_encodings::BGR8;
         out_msg.image = tracker->getImage();
-        image_pub.publish(out_msg.toImageMsg());
+        sensor_msgs::ImagePtr out_img_msg = out_msg.toImageMsg();  
+        image_pub.publish(out_img_msg);
       }
     }
   }
@@ -556,7 +565,7 @@ int main(int argc, char *argv[] )
   ros::init(argc, argv, "blort_tracker");
   //FIXME: hardcoded size, 1x1 is not good, renders the tracker unfunctional in runtime
   // size should be not smaller the image size, too big size is also wrong
-  blort_ros::GLXHidingWindow window(656, 492, "Tracker"); // a window which should hide itself after start
+  blort_ros::GLXHidingWindow window(1224,1025, "Tracker"); // a window which should hide itself after start
   //blortGLWindow::GLWindow window(640  , 480, "Window"); // a normal opengl window
   TrackerNode node(argv[1]);
   ros::spin();

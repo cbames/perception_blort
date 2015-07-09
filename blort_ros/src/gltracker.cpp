@@ -344,6 +344,9 @@ cv::Mat GLTracker::getImage()
 
 void GLTracker::updatePoseResult(std::string i)
 {
+
+  std::cout << "pose:"<<i <<  std::endl;
+
   TomGine::tgPose pose;
   tracker.getModelPose(model_ids[i], pose);
 
@@ -357,6 +360,8 @@ void GLTracker::updatePoseResult(std::string i)
   detection.orientation.y = -pose.q.y;
   detection.orientation.z = -pose.q.z;
   detection.orientation.w = pose.q.w;
+
+  std::cout << "detect:" <<  detection.orientation << std::endl;
 
   result[i] = detection;
 }
@@ -380,6 +385,8 @@ void GLTracker::update()
       ROS_INFO_STREAM("GLTracker::update: the tracked model for " << obj.name << " has set quality to " << obj.quality);
       tracker.getModelConfidenceState(model_ids[obj.name], obj.tracking_conf);
 
+      std::cout << "tracking conf:" << obj.tracking_conf << std::endl; 
+
       switch(obj.tracking_conf)
       {
       case Tracking::ST_GOOD:
@@ -397,7 +404,7 @@ void GLTracker::update()
         break;
       case Tracking::ST_BAD:
         this->current_confs[obj.name] = blort_ros::TRACKER_CONF_FAIR;
-        if(publish_mode == TRACKER_PUBLISH_ALL)
+        //if(publish_mode == TRACKER_PUBLISH_ALL)
           updatePoseResult(obj.name);
         break;
       default:
