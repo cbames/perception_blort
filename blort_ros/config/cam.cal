@@ -50,8 +50,8 @@ sy = 0.005816
 # aspect ratio: pixel size x/y
 r  = 0.995194
 # image width and height
-w =  1224
-h =  1025
+w =  612
+h =  512
 
 # distortion parameters
 k1 = 0.139042

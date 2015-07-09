@@ -1,0 +1,24 @@
+<launch>
+
+    <arg name="image" default="/r2/head/prosilica/left_scaled/image_rect_color" />
+    <arg name="info"  default="/r2/head/prosilica/left_scaled/camera_info" />
+
+    <!-- Tracker node -->
+    <node pkg="blort_ros" type="gltracker_node" name="blort_tracker" args="$(find blort_ros)">
+        <param name="launch_mode" value="singleshot" />
+        <remap from="/detector_camera_info" to="$(arg info)" />
+        <remap from="/detector_image" to="$(arg image)" />
+        <remap from="/tracker_image" to="$(arg image)" />   
+    </node>
+
+    <group ns="/blort_detector">
+        <rosparam command="load" file="$(find blort_ros)/config/detector_params.yaml" />
+    </group>
+    
+    <!-- Detector node -->
+    <node pkg="blort_ros" type="gldetector_node" name="blort_detector" args="$(find blort_ros)">
+        <remap from="/blort_camera_info" to="$(arg info)" />
+    </node>
+
+</launch>
+

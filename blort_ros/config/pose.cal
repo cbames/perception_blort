@@ -5,7 +5,7 @@
 # r .. 3x1 rotation vector
 #      direction = axis of rotation, length = angle in [rad]
 
-pose = [0.12 0.704 .351] [1.57 0 0]
+pose = [0.3 0.3 0.3] [0 -1.57 0]
 #pose = [0.988503 -0.994744 0.443049] [-1.917587 -0.453044 0.389306]
 # rotation matrix:
 # |  0.874  0.131 -0.468 |
